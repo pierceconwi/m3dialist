@@ -53,13 +53,16 @@ const AddFilm = () => {
             // Firestore doc should now exist
             setIsLoading(false);
             setTitle("");
-            setDesctiption("pending");
+            setDescription("pending");
             toast(
                 {
                     title: "Film added!",
-                    status: "Success"
+                    // the following status value MUST be all-lowercase string "success" (i.e. no "Success!")
+                    status: "success"
                 }
-            )
+            );
+            await new Promise(r => setTimeout(r, 1500));
+            window.location.assign("/");
         }
     };
     // Return markup for this AddFilm JSX component
@@ -83,19 +86,19 @@ const AddFilm = () => {
                         value={"unwatched"} 
                         style={{ color: "yellow",fontWeight: "bold" }}
                     >
-                        Unwatched
+                        Unwatched ⌛
                     </option>
                     <option 
                         value={"watched"} 
                         style={{ color: "green",fontWeight: "bold" }}
                     >
-                        Watched
+                        Watched ✅
                     </option>
                 </Select>
                 <Button
-                    onClick={ () => handleFilmCreate }
+                    onClick={ () => handleFilmCreate() }
                     disabled={ title.length < 1 || description.length < 1 || isLoading }
-                    variantColor="teal"
+                    colorScheme="green"
                     variant="solid"
                 >
                     Add Film

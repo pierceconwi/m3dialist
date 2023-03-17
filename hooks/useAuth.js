@@ -20,6 +20,7 @@ const useAuth = () => {
             );
         }
     );
-}
+    return { user, isLoggedIn };
+};
 
 export default useAuth;
