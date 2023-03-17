@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { auth } from "..firebase";
+import { auth } from "../firebase";
 
 const useAuth = () => {
     // Define a state variable and associated function to change its value

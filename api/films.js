@@ -30,7 +30,7 @@ const addFilm = async ( { userId, title, description, status } ) => {
 };
 
 const toggleFilmStatus = async ( { docId, status } ) => {
-    try (
+    try {
         // reference existing Firestore doc by id
         const filmRef = doc(db, "films", docId);
         // update specified doc
@@ -40,7 +40,7 @@ const toggleFilmStatus = async ( { docId, status } ) => {
                 status: status
             }
         )
-    ) catch (err) {
+    } catch (err) {
         console.log(err);
     }
 };

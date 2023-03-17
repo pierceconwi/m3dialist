@@ -23,7 +23,7 @@ const AddFilm = () => {
     const [ isLoading, setIsLoading ] = React.useState(false);
     const toast = useToast();
     // Call useAuth()
-    const { isLoggedIn, user } = useAuth();
+    const { isLoggedIn, user } = useAuth() || {};
     // Define function to handle Add Film operation
     const handleFilmCreate = async () => {
         // Is the user logged in?
