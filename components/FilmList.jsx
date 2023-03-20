@@ -21,7 +21,7 @@ import { deleteFilm, toggleFilmStatus } from "../api/films";
 // Define the React JSX component for the list
 const FilmList = () => {
     const [ films, setFilms ] =  React.useState([]);
-    const { isLoggedIn, user } = useAuth() || {};
+    const { user } = useAuth() || {};
     const toast = useToast();
     // Func which will update the list from Firestore DB
     const refreshData = () => {
@@ -101,6 +101,7 @@ const FilmList = () => {
                         shadow={"dark=lg"}
                         transition="0.2s"
                         _hover={{ boxShadow: "sm" }}
+                        key={film.id}
                     >
                         <Heading as="h3" fontSize={"xl"}>
                             {film.title}
