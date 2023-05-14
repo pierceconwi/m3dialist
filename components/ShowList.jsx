@@ -16,26 +16,21 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { FaToggleOff, FaToggleOn, FaTrash } from "react-icons/fa";
-import { deleteFilm, toggleFilmStatus } from "../api/films";
+import { deleteShow, toggleShowStatus } from "../api/shows";
 
-// Define the React JSX component for the list
-const FilmList = () => {
-    const [ films, setFilms ] =  React.useState([]);
+const ShowList = () => {
+    const [ shows, setShows ] =  React.useState([]);
     const { user } = useAuth() || {};
     const toast = useToast();
-    // Func which will update the list from Firestore DB
     const refreshData = () => {
         if (!user) {
-            setFilms([]);
+            setShows([]);
             return;
         }
-        // If browser control hits this point, a user is logged in
-        // Query Firestore collection
         const q = query(
-            collection(db, "films"),
+            collection(db, "shows"),
             where("user", "==", user.uid)
         );
-        // Because query() is async, set up event handler w Firebase
         onSnapshot(
             q,
             (querySnapshot) => {
@@ -53,29 +48,26 @@ const FilmList = () => {
                         );
                     }
                 );
-                setFilms(ar);
+                setShows(ar);
             }
         );
     };
-    // Tell React to update UI with refreshData().
     useEffect(
         () => {
             refreshData();
         },
         [user]
     );
-    // Build nested function to delete a film from list
-    const handleFilmDelete = async (id) => {
+    const handleShowDelete = async (id) => {
         if(
             confirm("Are you sure you want to delete?")
         ) {
-            deleteFilm(id);
+            deleteShow(id);
         }
     };
-    // Build nested function to toggle status
     const handleToggle = async (id, status) => {
         const newStatus = status == "completed" ? "pending" : "completed";
-        await toggleFilmStatus(
+        await toggleShowStatus(
             {
                 docId: id,
                 status: newStatus
@@ -83,28 +75,27 @@ const FilmList = () => {
         );
         toast(
             {
-                title: `Film marked ${newStatus}`,
+                title: `Show marked ${newStatus}`,
                 status: newStatus == "completed" ? "success" : "warning"
             }
         );
     };
-    // Define JSX component to return
     return (
         <Box mt={5}>
-            <SimpleGrid colums={{ base: 1, md: 3 }} spacing={2}>
-                { films && 
-                  films.map(
-                    (film) => (
+            <SimpleGrid colums={{ base: 1, md: 3 }} spacing={8}>
+                { shows && 
+                  shows.map(
+                    (show) => (
                     <Box
                         p={3}
                         boxShadow="2xl"
                         shadow={"dark=lg"}
                         transition="0.2s"
                         _hover={{ boxShadow: "sm" }}
-                        key={film.id}
+                        key={show.id}
                     >
                         <Heading as="h3" fontSize={"xl"}>
-                            {film.title}
+                            {show.title}
                             {" "}
                             <Badge
                                 color="red.500"
@@ -116,12 +107,12 @@ const FilmList = () => {
                                 }}
                                 float="right"
                                 size="xs"
-                                onClick={ () => handleFilmDelete(film.id) }
+                                onClick={ () => handleShowDelete(show.id) }
                             >
                                 <FaTrash />
                             </Badge>
                             <Badge
-                                color={film.status == "pending" ? "gray.500" : "green.500"}
+                                color={show.status == "pending" ? "gray.500" : "green.500"}
                                 bg="inherit"
                                 transition={"0.2s"}
                                 _hover={{
@@ -130,20 +121,20 @@ const FilmList = () => {
                                 }}
                                 float="right"
                                 size="xs"
-                                onClick={ () => handleToggle(film.id, film.status)}
+                                onClick={ () => handleToggle(show.id, show.status)}
                             >
-                                { film.status == "pending" ? <FaToggleOff /> : <FaToggleOn />}
+                                { show.status == "pending" ? <FaToggleOff /> : <FaToggleOn />}
                             </Badge>
                             <Badge
                                 float="right"
                                 opacity="0.8"
-                                bg={ film.status == "pending" ? "yellow.500" : "green.500" }
+                                bg={ show.status == "pending" ? "yellow.500" : "green.500" }
                             >
-                                { film.status }
+                                { show.status }
                             </Badge>
                         </Heading>
                         <Text>
-                            { film.description }
+                            { show.description }
                         </Text>
                     </Box>
                     )
@@ -154,4 +145,4 @@ const FilmList = () => {
     );
 };
 
-export default FilmList;
+export default ShowList;

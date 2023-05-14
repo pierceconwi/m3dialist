@@ -44,7 +44,7 @@ const Auth = () => {
     };
     // Define React JSX component
     return (
-        <Box position={"fixed"} top="5%" right="5%">
+        <Box position={"fixed"} top="1%" right="1%">
             <Button onClick={() => toggleColorMode()}>
                 {colorMode = "dark" ? <FaSun /> : <FaMoon />}
             </Button>
