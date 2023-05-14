@@ -28,9 +28,10 @@ const Auth = () => {
             (result) => {
                 // Provides Google Access Token to access Google API
                 const credential = GoogleAuthProvider.credentialFromResult(result);
+/*              // Commenting out the following variables until they are ready to be implemented in app
                 const token = credential.accessToken;
                 // Should now be able to get info about user who is logged in
-                const user = result.user;
+                const user = result.user; */
             }
         ).catch(
             (error) => {

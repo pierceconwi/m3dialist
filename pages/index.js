@@ -1,3 +1,4 @@
+import React from "react";
 import { Container } from "@chakra-ui/react";
 import Auth from "../components/Auth";
 import AddFilm from "../components/AddFilm";
